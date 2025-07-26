@@ -624,9 +624,11 @@
     lastTimestamp = 0;
     updateHUD();
     gameOverOverlay.classList.add('hidden');
-    // Background music is started lazily in the first pointer
-    // handler to satisfy browser autoplay policies.  Do not
-    // explicitly start it here.
+    // Reset the background music for a new game.  Stop any currently
+    // playing track and mark bgMusicStarted as false so that the
+    // first click/tap of the new game will trigger a fresh track.
+    stopBackgroundMusic();
+    bgMusicStarted = false;
     requestAnimationFrame(gameLoop);
   }
 
