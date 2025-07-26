@@ -45,8 +45,12 @@
     return audio;
   });
   // Keep track of the currently playing track so we can pause it if
-  // necessary.
+  // necessary.  We also record whether music has been started
+  // following a user gesture; this is used to satisfy browser
+  // autoplay policies (audio playback must be initiated by a user
+  // interaction).
   let currentBgTrack = null;
+  let bgMusicStarted = false;
 
   /**
    * Spawn an explosion effect at the specified location. The initial
@@ -511,6 +515,15 @@
 
   // Handle click/tap to destroy missiles
   function handlePointer(event) {
+    // On the first user interaction, start the background music.  Many
+    // browsers block audio playback until a user gesture occurs, so
+    // defer starting the soundtrack until this handler fires.  Once
+    // started, bgMusicStarted remains true to avoid restarting the
+    // music on every click.
+    if (!bgMusicStarted) {
+      startBackgroundMusic();
+      bgMusicStarted = true;
+    }
     if (gameOver) return;
     // Determine the pointer’s position relative to the canvas.
     // For mouse events we can use offsetX/offsetY, which are
@@ -611,11 +624,9 @@
     lastTimestamp = 0;
     updateHUD();
     gameOverOverlay.classList.add('hidden');
-    // Start or restart the background music.  This will pick a
-    // random track from the bundled MP3 files and begin playing it.
-    // It should be invoked in response to a user interaction to
-    // satisfy browser autoplay policies.
-    startBackgroundMusic();
+    // Background music is started lazily in the first pointer
+    // handler to satisfy browser autoplay policies.  Do not
+    // explicitly start it here.
     requestAnimationFrame(gameLoop);
   }
 
