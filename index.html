@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missile Defense: Earth Under Attack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Scoreboard and health container -->
+  <div id="hud">
+    <div id="score">Score: 0</div>
+    <div id="health">Earth Health: 100 | Level: 1</div>
+  </div>
+  <!-- Canvas for game rendering -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Game over overlay -->
+  <div id="gameOverOverlay" class="hidden">
+    <div class="game-over-content">
+      <h1>Game Over</h1>
+      <p>Your final score: <span id="finalScore">0</span></p>
+      <button id="restartButton">Restart</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
